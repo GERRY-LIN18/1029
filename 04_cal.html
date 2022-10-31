@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <p>step:{{step}}</p>
+        <div><button v-for="num in 9" @click="number( num )">{{num}}</button></div>
+        <button @click="reduceCount(Subtrahend)">-</button>
+        <button @click="addCount">+</button>
+        <button @click="sum(x)">=</button>
+        <button @click="clear">clear</button>
+
+
+        <h2>result :{{result}}</h2>
+
+
+    </div>
+    
+    <script src="https://unpkg.com/vue@next"></script>
+        
+    <script>
+        Vue.createApp ({
+            data(){
+                return {
+                    step: '',
+                    result:0,
+                    arrNum:[],
+                    n :'',
+                    x:''
+                }
+            },
+            methods:{
+                number(num){
+                    this.step += num
+                    this.n+= num
+                },
+                addCount(){
+                    this.arrNum.push(this.n)
+                    this.step += " + "
+                    this.n=''
+                    this.x= "+"
+
+                },
+                reduceCount(Subtrahend){
+                    let subtrahend= Subtrahend
+                    this.arrNum.push(this.n)
+                    this.step += " - "
+                    this.n=''
+
+                    this.x= "-"
+
+                },
+                sum(x){
+                    this.arrNum.push(this.n)
+
+                    if (x =='+'){
+                        this.arrNum.forEach(element => {
+                        this.result += parseInt(element)
+                    })}
+                    if(x=="-"){
+                        this.result= parseInt(this.arrNum[0]) + parseInt(this.arrNum[1])*-1
+                    }
+                },
+                clear(){
+                    this.step =this.n=this.x= ""
+                    this.arrNum=[]}
+                
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
