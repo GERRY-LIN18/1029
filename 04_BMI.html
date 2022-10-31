@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="id">
+        <label for="height">身高cm<input type="number" v-model="height"></label>
+        <label for="weight">體重kg<input type="number" v-model="weight"></label>
+
+        <br>
+
+        BMI: {{BMI()}} <br>
+        {{analyze(BMI())}}
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return {
+                    height: 0,
+                    weight: 0,
+                }
+            },
+            methods:{
+                BMI:function(){
+                    let bmi= this.weight / Math.pow(this.height/100 , 2)
+                return bmi.toFixed(2)
+                },
+                analyze:function(BMI){
+                    if (BMI<18.5) return '體重過輕';
+                    if (BMI< 24) return '健康體重';
+                    if (BMI<27) return '體重過重';
+                    else return '肥胖';
+                }
+            }
+        }).mount('#id')
+    </script>
+</body>
+</html>
