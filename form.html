@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{name}}<br>
+        {{message}}<br> -->
+        {{check}}<br>
+        <!-- {{radio}}<br>
+        {{select}}<br> -->
+        <!-- <input type="text" @input="event=> text= event.target.value"> -->
+        <ul>
+            <li><input type="text" id="name" v-model="name"><br></li>
+            <li><textarea name="textarea"  cols="5" rows="5" v-model="message"></textarea><br></li>
+            <li><input type="checkbox" id="check01" v-model="check" value="1">bok<br></li>
+            <li><input type="checkbox" id="check01" v-model="check"value="222">222<br></li>
+            <li><input type="checkbox" id="check01" v-model="check"value="444">444<br></li>
+            <li>
+                <input type="radio" value="A" v-model="radio">
+                <input type="radio" value="B" v-model="radio">
+            </li>
+            <li>
+                <select  id="select" v-model="select">
+                    <option value="AA">AA</option>
+                    <option value="BB">BB</option>
+                    <option value="CC">CC</option>
+                </select>
+            </li>
+            <li>
+
+                <select  v-model="selectFor">
+                    <option v-for="item in option" :value="item.value">{{item.value}}</option>
+                </select>
+            </li>
+
+        </ul>
+
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    selected: 'A',
+                    options: [
+                        { text: 'One', value: 'A' },
+                        { text: 'Two', value: 'B' },
+                        { text: 'Three', value: 'C' }
+                    ],
+                    name:'name',
+                    message:'message textarea',
+                    check:[],
+                    radio:'radio',
+                    select:'select',
+                    selectFor:'',
+                    option:[
+                        {item:'AAA',value :'AAAAAAAAAAAA'},
+                        {item:'BBB',value :'BBBBBBBBBBBB'},
+                    ]
+                }
+            },
+            methods:{
+
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

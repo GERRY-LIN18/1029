@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toDoList</title>
+    <style>
+        .done{
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <input type="text" v-model="text" @keyup.enter="addList(text)">
+        <div v-for='item ,index in list'>
+            <input type="checkbox" :value="list[index]"  v-model="checked" >
+            <label :class="result(index)">{{list[index]}}</label>
+
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{
+                    text:'',
+                    list:[],
+                    boxCheck:false,
+                    checked:[],
+                }
+            },
+            computed:{  
+                done(){
+                    // if(this.boxCheck){
+                    //     console.log(this)
+                    //     this.addClass('done')
+                    // }
+                },
+                // result(){
+                //     if(){
+                        
+                //         return {
+                //             done: true,
+                //             temp: false,
+                //         }
+                //     }else{
+
+                //         return 'done'
+                //     }
+                // }
+            },
+            methods:{
+                addList(text){ 
+                    if (text=='') return;
+                    this.list.push(text);
+                    this.text='';
+                },
+                result(i){
+                    let this.checked
+                    console.log(this.checked.);
+                    console.log(this.list);
+
+                    console.log(i);
+                    return 'done';
+                }
+
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>

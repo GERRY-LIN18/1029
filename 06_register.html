@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="id" >
+        <form action="" class="avatar" 
+            @mouseover ="formHover = true"
+            @mouseleave ="formHover = false"
+            :style="{
+                backgroundColor : formHover? color: '#000'}"
+            
+            >
+
+            <label for="mail">mail
+            </label>
+            <input type="text" id="mail" v-model="mail">
+            <br>
+            <label for="password">密碼            
+                <input type="password" id="password" v-model="password">
+            </label><br>
+            <label for="date">生日
+                <input type="date" name="" id="date" v-model="date">
+            </label><br>
+            <label for="favorite">favorite</label> {{drink}}
+                <input type="checkbox" v-model="drink" value="A">A
+                <input type="checkbox" v-model="drink" value="B">B
+                <input type="checkbox" v-model="drink" value="C">C
+                <br>
+    
+            <label for="favorite">picked</label> {{picked}}
+                <input type="radio" v-model="picked" value="A">A
+                <input type="radio" v-model="picked" value="B">B
+                <br>
+                {{selected}}
+            <select name="" id="" v-model="selected">
+                <option >AA</option>
+                <option >BB</option>
+                <option >CC</option>
+                <option >DD</option>
+            </select>
+            <label for="color">
+                <input type="color" v-model="color" >
+            </label>
+        </form>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return {
+                    formHover:true,
+                    email:'',
+                    password:'',
+                    name:'',
+                    drink:[],
+                    location:'',
+                    food:'',
+                    color:'',
+                    date :new Date(),
+                    picked:[],
+                    selected:'',
+                    color:'',
+
+                }
+            }
+
+        }).mount('#id')
+    </script>
+</body>
+</html>

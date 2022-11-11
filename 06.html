@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img{
+            width: 100px;
+        }
+        .product-box{
+            display: flex;
+        }
+        .product{
+            border: 3px solid blue;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header>
+            search : <input type="'text" v-model="search"><br>
+            filer : <input type="number" name="" v-model="min">~ <input type="number" name="" v-model="max">
+        </header>
+        <!-- 變數 in陣列 -->
+
+        
+        <div v-if="load">load</div>
+        <div v-else class="product-box" >
+            <div class="product" v-for="(item ,index) in product" :key="item.id">
+                <h3>{{item.title}}</h3>
+                <img :src="item.image" alt="">
+                <h4>${{item.price}}</h4>
+                <div>
+                    <button @click="reduceCount(index)">-</button>
+                    <input type="number" min="1" v-model.number="count[index]">
+                    <button @click="addCount(index)">+</button>
+                </div>
+            </div>
+        </div>
+        <p>總計 :{{total}}</p>
+
+    </div>
+   
+    <script src="https://unpkg.com/vue@next"></script>
+        
+    <script>
+        Vue.createApp ({
+            data(){
+                return {
+                    // product:[],
+                    load:false,
+                    source:[],
+                    count: [],
+                    // total: 0,
+                    search:'',
+                    filter:0,
+                    min: 0,
+                    max:0,
+                }
+
+            },
+            // created
+            created(){
+                this.getResource();
+            },
+            // mounted渲染完才會做的事
+            computed:{
+                product(){
+                    console.log(this.source);
+
+                    let cache = this.source;
+
+
+                    if(this.min >0) {
+
+                        cache = cache.filter( item => {
+                            return  item.price > this.min })
+
+                    }
+                    if(this.max >0 ){
+                        cache = cache.filter( item => {
+                            return  item.price < this.max })
+                    }
+
+                    if(this.search !=''){
+                        
+                        cache = cache.filter( item => {
+                            return item.title.includes(this.search) })
+                    }
+                    return cache;
+                },
+                total(){
+                    let total = 0;
+
+                    for(index in this.count){
+                        total += this.count[index] * this.product[index]['price']
+                    }
+                    return parseInt(total);
+                }
+            },
+            // watch:{
+            //     total:{
+            //         handler: function(newVal , oldVal){
+            //             console.log(oldVal)
+            //             console.log(newVal)
+            //             if(newVal>500){
+            //                 alert('你要餓死ㄌ')
+            //             }
+            //         }
+            //     }
+            // },
+            methods:{
+                getResource(){
+                    this.load = true;
+                    fetch('https://fakestoreapi.com/products/')
+                    .then(res=>res.json())
+                    .then(json=>{
+                    this.source=json
+                    })
+                    for (item in this.product){
+                        this.count.push(0)
+                    }
+                    this.load = false;
+
+                },
+                addCount(index){
+                    console.log(this.count)
+                    this.count[index]+=1
+                    this.sumTotal()
+
+
+                },
+                reduceCount(index){
+                    if(this.count[index]<=0) return
+                    this.count[index]-=1
+                    this.sumTotal()
+
+                },
+                // sumTotal(){
+                //     this.total = 0
+
+                //     for(index in this.count){
+                //         this.total += this.count[index] * this.product[index]['price']
+                //     }
+                //     this.total= this.total.toFixed(2)
+
+                //     // this.count.map( (item,index) =>{
+                //     //     // item商品數量
+                //     //     // index陣列位置
+                //     //     this.product[index]
+                //     // })
+                // }
+            }
+        }).mount('#app')
+    </script>
+</body>
+</html>
