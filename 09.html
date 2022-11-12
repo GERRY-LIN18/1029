@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">
+
+</head>
+<body>
+    <div id="app">
+        <i-button @click="show">Click me!</i-button>
+        <Modal v-model="visible" title="Welcome">Welcome to View UI Plus</Modal>
+        <div>
+            <Carousel v-model="value" loop>
+                <CarouselItem>
+                    <div class="demo-carousel"><img src="https://fakeimg.pl/300x200/200"></div>
+                </CarouselItem>
+                <CarouselItem>
+                    <div class="demo-carousel"><img src="https://fakeimg.pl/300x200/200"></div>
+                </CarouselItem>
+                <CarouselItem>
+                    <div class="demo-carousel"><img src="https://fakeimg.pl/300x200/200"></div>
+                </CarouselItem>
+                <CarouselItem>
+                    <div class="demo-carousel"><img src="https://fakeimg.pl/300x200/200"></div>
+                </CarouselItem>
+            </Carousel>
+        </div>
+        <script>
+
+        </script>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script src="https://unpkg.com/view-ui-plus"></script>
+    <script>
+        const app= Vue.createApp({
+            data(){
+                return{
+                    visible: false,
+                    value: 0
+
+                }
+            },
+            methods:{
+                show () {
+                this.visible = true;
+            }
+            },
+        })
+        app.use(ViewUIPlus);
+        app.mount('#app');
+    </script>
+</body>
+</html>

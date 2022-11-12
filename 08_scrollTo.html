@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        section {
+            font:100px Bold ;
+            width: 100vw;
+            height: 100vh;
+            text-align: center;
+        }
+        #section1{
+            background-color: darkblue;
+        }
+        #section2{
+            background-color: darkgoldenrod;
+        }
+        #section3{
+            background-color: darkturquoise;
+        }
+        button{
+            position:sticky;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="scrollDown">A</button>
+        <button @click="scrollDown">B</button>
+        <button @click="scrollDown">C</button>
+
+        <section id="section1" ref="section1">A
+            <button @click="scrollDown">▼</button>
+        </section>
+        <section id="section2" ref="section2">B</section>
+        <section id="section3" ref="section3">C
+            <button @click="scrollUp">▲</button>
+
+        </section>
+    </div>
+    <script src="https://unpkg.com/vue@next"></script>
+    <script>
+        Vue.createApp({
+            data(){
+                return{ }
+            },
+            methods:{
+                scrollDown(){
+                    window.scrollTo({
+                        top:0,
+                        behavior:'smooth',
+                    })
+                },
+                scrollUp(){
+
+                    // window.scrollTo()
+                    // const box = document.getElementById('section2')
+                    // console.log(this.$refs);
+                },
+            },
+        }).mount('#app');
+    </script>
+</body>
+</html>
