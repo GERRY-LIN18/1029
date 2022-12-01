@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .imgbox {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <button v-for="(e,i) in style" :style="{'color':e}" @click="change(e)">{{e}} 我是按鈕</button>
+        <div class="imgbox" :style="{'background':X}">
+            co oc o
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/vue@next"></script>
+
+    <script>
+        console.log(Vue)
+        Vue.createApp({
+            data() {
+                return {
+                    style: ['#e2dbbe', ' #a00', ' #b00', ' #c00', '#0ac', '#0bc', ' #188fa7', ' #a02', '#0b0', ' #769fb6']
+                    , X: 'red'
+                }
+            },
+            methods: {
+                change(x) {
+                    this.X = x
+                }
+            }
+        }).mount('#app')
+    </script>
+</body>
+
+</html>
