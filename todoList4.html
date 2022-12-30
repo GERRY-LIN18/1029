@@ -1,126 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>toDoList</title>
     <style>
-        .done{
+        .done {
             text-decoration: line-through;
         }
-        .flex{
-            display: flex;
-            justify-content: space-around;
-        }
-        .flex *{
-            width: 50%;
-        }
 
+        .w300 {
+            width: 300px;
+        }
     </style>
-</head>
-<body>
-    <div id="app">
-        <input type="text" v-model="text" @keyup.enter="addList(text)" >
-        <div v-for='(item ,index) in list' class="flex" :key="index">
-            <template v-if="item.editing"  >
-                <input type="text"  @keyup.enter ="change(item , mdtext)" v-model="mdtext">
-            </template>
 
-            <div @click="complete(item)"  :class="{done: item.done }" v-else>{{item.context}}  </div>
-            <button @click="del(item)">
-                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                    <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
-                </svg>
-            </button>
-            <button @click="modify(item)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
-                    <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z"/>
-                </svg>
-            </button>
-        </div>
-        <div>
-            沒有作用
-            
-            <button @click="donelist(1)">完成</button>
-            <button @click="donelist(2)">未完成</button>
-            <button @click="donelist(3)">全部</button>
-        </div>
+</head>
+
+<body>
+    <div id="app" class="ivu-b ">
+        <List border size="large" class="ivu-m-8 ">
+            <!-- <i-button @click="show">Click me!</i-button>
+        <Modal v-model="visible" title="Welcome">Welcome to View UI Plus</Modal> -->
+            <Space wrap class="ivu-p-8 ">
+
+                <Input placeholder="輸入代辦事項" v-model="text" @keyup.enter="addList(text)">
+
+                <i-Button type="primary" @click="donelist(1)">完成</i-Button>
+                <i-Button type="primary" @click="donelist(2)">未完成</i-Button>
+                <i-Button type="primary" @click="donelist(3)">全部</i-Button>
+            </Space>
+
+            <div>
+                <Row v-for='(item ,index) in list' :key="index" class="">
+
+
+                    <Space size="large" class="ivu-bt ivu-p-8">
+                        <Checkbox v-model="item.done" @click="cacheSave"></Checkbox>
+
+                        <div class="w300">
+                            <div v-if="item.editing">
+                                <input type="text" @keyup.enter="change(item , mdtext)" v-model="mdtext">
+                            </div>
+
+                            <div @click="complete(item)" :class="{done: item.done }" v-else>{{item.context}} </div>
+                        </div>
+
+                        <i-button @click="del(item)" :size="buttonSize" type="primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path
+                                      d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                            </svg>
+                        </i-button>
+                        <i-button @click="modify(item)" :size="buttonSize" type="primary">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                <path
+                                      d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                            </svg>
+                        </i-button>
+                    </Space>
+                </Row>
+
+            </div>
+        </List>
     </div>
+    <!-- import Vue.js -->
     <script src="https://unpkg.com/vue@next"></script>
+    <!-- import stylesheet -->
+    <link rel="stylesheet" href="https://unpkg.com/view-ui-plus/dist/styles/viewuiplus.css">
+    <!-- import View UI Plus -->
+    <script src="https://unpkg.com/view-ui-plus"></script>
     <script>
         Vue.createApp({
-            data(){
-                return{
-                    text:'',
-                    list:[{
-                        editing:false,
-                        done:false,
-                        context:'AAA',
-                        }],
-                    result:'',
-                    mdtext:'',
-                    DONE:'DONE',
-                    cache:[],
+            data() {
+                return {
+                    text: '',
+                    list: [
+                        {
+                            editing: false,
+                            done: false,
+                            context: "AAA"
+                        },
+                        {
+                            editing: false,
+                            done: false,
+                            context: "BBB"
+                        },
+                        {
+                            editing: false,
+                            done: false,
+                            context: "CCC"
+                        }
+                    ],
+                    result: '',
+                    mdtext: '',
+                    DONE: 'DONE',
+                    cache: [
+                        {
+                            editing: false,
+                            done: false,
+                            context: "AAA"
+                        },
+                        {
+                            editing: false,
+                            done: false,
+                            context: "BBB"
+                        },
+                        {
+                            editing: false,
+                            done: false,
+                            context: "CCC"
+                        }
+                    ],
                 }
             },
-            computed:{  
+            computed: {
             },
-            methods:{
-                addList(text){ 
-                    if (text=='') return;
-                    let newList= {
-                        editing:false,
-                        done:false,
-                        context:text,
-                        };
-                    this.list.push(newList);
-                    
-                    this.text='';
-                },
-                complete(item){
-                    if(!item.done){
-                        item.done= true;
-                    }else{
-                        item.done= false;
-                    }
-                },
-                modify(item){
-                    if(!item.editing){
-                        item.editing= true;
-                    }else{
-                        item.editing= false;
-                    }
-                },
-                del(item){
-                    this.list=this.list.filter((e)=> e!=item)
-                },
-                change(item , changeword){
-                    item.editing=false;
-                    item.context = changeword;
-                },
-                donelist(selectword){
-                    let newList
-                    
-                    switch(selectword){
-                    case 1 :
-                        this.cache = this.list
-                        newList =  this.list.filter((e)=>e.done==true)
-                        this.list = newList
-                        break
-                    case 2 :
-                        this.cache = this.list
-                        newList =  this.list.filter((e)=>e.done==false)
-                        this.list = newList
+            watch: {
+            },
+            methods: {
+                cacheSave() {
+                    this.cache = this.list
 
-                        break
-                    case 3 :
-                        console.log(this.cache)
-                        if(this.cache != []){console.log(2)}
+                },
+
+                addList(text) {
+                    if (text == '') return;
+                    let newList = {
+                        editing: false,
+                        done: false,
+                        context: text,
+                    };
+                    this.list.push(newList);
+
+                    this.text = '';
+
+                    this.cacheSave()
+                },
+                complete(item) {
+                    if (!item.done) {
+                        item.done = true;
+                    } else {
+                        item.done = false;
+                    }
+                    this.cacheSave()
+
+                },
+                modify(item) {
+                    if (!item.editing) {
+                        item.editing = true;
+                        this.mdtext = item.context
+                    } else {
+                        item.editing = false;
+                    }
+                    this.cacheSave()
+
+                },
+                del(item) {
+                    this.list = this.list.filter((e) => e != item)
+                    this.cacheSave()
+
+                },
+                change(item, changeword) {
+                    item.editing = false;
+                    item.context = changeword;
+
+                },
+                donelist(selectword) {
+                    switch (selectword) {
+                        case 1:
+                            console.log(this.list)
+                            this.list = this.cache.filter((e) => { return e.done == true })
+                            break
+                        case 2:
+                            console.log(this.list)
+
+                            this.list = this.cache.filter((e) => { return e.done == false })
+
+                            break
+                        case 3:
+                            this.list = this.cache
+                            break
                     }
                 },
             }
-        }).mount('#app');
+        }).use(ViewUIPlus).mount('#app');
     </script>
 </body>
+
 </html>
